@@ -11,6 +11,7 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
+import { Alert } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import axios from 'axios';
 
@@ -28,6 +29,7 @@ function Copyright(props) {
 }
 
 const theme = createTheme();
+// Alert ko'rsatadigan funksiya
 
 export default function SignIn() {
   const handleSubmit =async (event) => {
@@ -44,15 +46,23 @@ export default function SignIn() {
       }
     )
         .then(function (response) {
-            console.log(response.data);
+            if(response.ok){
+
+            }else{
+              setAlertElement(<Alert severity="error">{response.data.message}</Alert>)
+            }
         })
         .catch(function (error) {
         console.log(error);
         });
   };
+  const [alertElement, setAlertElement] = React.useState("")
 
   return (
     <ThemeProvider theme={theme}>
+      <div className='alert'>
+          {alertElement}
+      </div>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
